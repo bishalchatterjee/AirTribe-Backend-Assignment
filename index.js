@@ -1,10 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const instructorsModule = require('./instructorsRoutes');
 const coursesModule = require('./coursesRoutes');
-const leadsModule = require('./leadsRoutes');
 const leadCommentsModule = require('./leadCommentsRoutes');
+const registrationModule = require('./registrationRoutes');
 
 const app = express();
+
+app.use(bodyParser.json()); // Apply body-parser middleware
 
 // Define route handler for the root URL
 app.get('/', (req, res) => {
@@ -16,8 +19,8 @@ app.get('/', (req, res) => {
 // Mounting the modules
 app.use('/instructors', instructorsModule);
 app.use('/courses', coursesModule);
-app.use('/leads', leadsModule);
-app.use('/lead-comments', leadCommentsModule);
+app.use('/leadComments', leadCommentsModule);
+app.use('/registration', registrationModule);
 
 // Start the Express server
 const PORT = 8000;

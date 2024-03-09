@@ -1,11 +1,15 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const router = express.Router();
-const pool= require('./db');
+const pool = require('./db');
+
+// Middleware to parse JSON request body
+router.use(bodyParser.json());
 
 // Define routes
 router.get('/', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM Leads');
+        const { rows } = await pool.query('SELECT * FROM REGISTRATION');
         res.json(rows);
     } catch (err) {
         console.error('Error executing query', err.stack);
@@ -27,14 +31,14 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:lead_id', async (req, res) => {
-    const { lead_id } = req.params;
+router.delete('/:courseRegistration_id', async (req, res) => {
+    const { courseRegistration_id } = req.params;
     try {
-        const { rows } = await pool.query('DELETE FROM Leads WHERE lead_id = $1 RETURNING *', [lead_id]);
+        const { rows } = await pool.query('DELETE FROM Leads WHERE courseRegistration_id = $1 RETURNING *', [courseRegistration_id]);
         if (rows.length === 0) {
-            res.status(404).json({ message: 'Lead not found' });
+            res.status(404).json({ message: 'Course registration not found' });
         } else {
-            res.json({ message: 'Lead deleted successfully' });
+            res.json({ message: 'Course registration deleted successfully' });
         }
     } catch (err) {
         console.error('Error executing query', err.stack);
@@ -42,13 +46,13 @@ router.delete('/:lead_id', async (req, res) => {
     }
 });
 
-router.put('/:lead_id', async (req, res) => {
-    const { lead_id } = req.params;
+router.put('/:courseRegistration_id', async (req, res) => {
+    const { courseRegistration_id } = req.params;
     const { course_id, name, email, phone, linkedin_profile, status } = req.body;
     try {
-        const { rows } = await pool.query('UPDATE Leads SET course_id = $1, name = $2, email = $3, phone = $4, linkedin_profile = $5, status = $6 WHERE lead_id = $7 RETURNING *', [course_id, name, email, phone, linkedin_profile, status, lead_id]);
+        const { rows } = await pool.query('UPDATE Leads SET course_id = $1, name = $2, email = $3, phone = $4, linkedin_profile = $5, status = $6 WHERE courseRegistration_id = $7 RETURNING *', [course_id, name, email, phone, linkedin_profile, status, courseRegistration_id]);
         if (rows.length === 0) {
-            res.status(404).json({ message: 'Lead not found' });
+            res.status(404).json({ message: 'Course registration not found' });
         } else {
             res.json(rows[0]);
         }

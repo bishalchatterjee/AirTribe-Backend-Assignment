@@ -1,6 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const router = express.Router();
 const pool= require('./db');
+
+// Middleware to parse JSON request body
+router.use(bodyParser.json());
 
 // Define routes
 router.get('/', async (req, res) => {
