@@ -32,7 +32,7 @@ services:
       ports:
        - "3000:3000"
  environment:
-  - DATABASE_URL=postgres://postgres:manish@postgres:5432/AirTribedataBase
+  - DATABASE_URL=postgres://postgres:bishal@postgres:3000/AirtribeDB
 depends_on:
   - postgres
  postgres:
